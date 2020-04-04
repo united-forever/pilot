@@ -8,9 +8,9 @@ var app = express();
 
 // --- MONGOOSE SETUP
 mongoose.connect(process.env.CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }); 
-var test = mongoose.connection;
-test.on('error', console.error.bind(console, 'connection error'));
-test.once('open', function callback() {
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', function callback() {
     console.log('database opened');
 });
 
