@@ -1,3 +1,5 @@
+// This is just a demo file to see if I was able to make a connection to the db, and if data was being posted.
+
 var express = require('express'),
 mongoose = require('mongoose'),
 body_parser = require('body-parser');
