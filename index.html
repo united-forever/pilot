@@ -18,12 +18,31 @@
                         By continuing this survey you agree to the information provided in the link below
                       <p style="text-align:center;"> <a href="https://drive.google.com/open?id=1ZRBdMAUhdw2TYoS0464-UvTM4qakE98H" target="_blank">Consent Form</a> </p>
                     </p>
-                    <form>
-                        <input type="checkbox" name="Agree" id="Agree" value="Yes" required>
+                    <form id = "ConsentForm">
+                        <input type="checkbox" name="chbox" id="chbox"  required>
                         I have read and I understand the provided information. 
                         I understand that my participation in this survey is voluntary and I agree to take part in this study.
-                      <p> <button type='button' onclick = "window.location = 'experiment'">Click here to proceed to the survey!</button></p>
+                        <input type="submit"  value="Click here to proceed to the survey" id="submit">
                     </form> 
+                    <script type="text/javascript">
+                        $(function ()
+                        {
+                            $("#ConsentForm").on('submit', function ()
+                            {
+                                if (document.getElementById("chbox").checked)
+                                {
+                                    $("#ConsentForm").onclick = function() {
+                                        "window.location = 'experiment'";
+                                    };
+                                }
+                                else
+                                {
+                                    e.preventDefault();
+                                    alert('Please check the box before submitting the form');
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
