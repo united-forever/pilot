@@ -1,21 +1,30 @@
 // --- LOADING MODULES
 var express = require('express'),
 mongoose = require('mongoose'),
-body_parser = require('body-parser');
+bodyParser = require('body-parser');
 
 // --- INSTANTIATE THE APP
 var app = express();
 
 // --- MONGOOSE SETUP
-mongoose.connect(process.env.CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }); 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', function callback() {
-    console.log('database opened');
-});
+const URI = "mongodb+srv://yash_verma:*********@jspsych-eymdu.mongodb.net/test?retryWrites=true&w=majority"
+const connectDB = async () => {
+    try{
+    await mongoose.connect(URI,{
+         useNewUrlParser: true ,
+         useUnifiedTopology: true });
+    console.log('Mongodb is connected');
+
+    }catch (e) {
+        console.error(e);
+        console.log('oops!!');
+    } 
+    };
+    
+    connectDB().catch(console.error);
 
 var emptySchema = new mongoose.Schema({}, { strict: false });
-var Entry = mongoose.model('Entry', emptySchema);
+var Entry = mongoose.model("Entry", emptySchema);
 
 
 // --- STATIC MIDDLEWARE 
@@ -24,7 +33,7 @@ app.use('/css', express.static(__dirname + "/css"));
 app.use('/img', express.static(__dirname + "/img"));
 
 // --- BODY PARSING MIDDLEWARE
-app.use(body_parser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.json()); // to support JSON-encoded bodies
 
 // --- VIEW LOCATION, SET UP SERVING STATIC HTML
 app.set('views', __dirname + '/');
@@ -37,16 +46,25 @@ app.get('/', function(request, response) {
 });
 
 app.get('/experiment', function(request, response) {
-    response.render('experiment_pilot.html');
+    response.render('test.html');
 });
 
-app.post('/experiment-data', function(request, response){
-    Entry.create({
-        "data":request.body
-    });    
-    response.end();
-})
+app.post("/experiment-data", (req, res) => {
+    var myData = new Entry(req.body);
+    myData.save()
+      .then(item => {
+        res.send("saved to database");
+      })
+      .catch(err => {
+        res.status(400).send("unable to save to database");
+      });
+  });
+
+  app.get('/finish', function(request, response) {
+    response.render('finish.html');
+});
+
 // --- START THE SERVER 
-var server = app.listen(process.env.PORT, function(){
+var server = app.listen(process.env.PORT || 7777, function(){
     console.log("Listening on port %d", server.address().port);
 });
