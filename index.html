@@ -1,6 +1,6 @@
 <!doctype HTML>
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <link href="jsPsych/css/jspsych.css" type="text/css" rel="stylesheet"/>
         <link href="css/index.css" type="text/css" rel="stylesheet"/>
         <link href="css/experiment.css" type="text/css" rel="stylesheet"/>
@@ -19,32 +19,25 @@
                       <p style="text-align:center;"> <a href="https://drive.google.com/open?id=1ZRBdMAUhdw2TYoS0464-UvTM4qakE98H" target="_blank">Consent Form</a> </p>
                     </p>
                     <form id = "ConsentForm">
-                        <input type="checkbox" name="chbox" id="chbox"  required>
+                        <input type="checkbox" name="consent_checkbox" id="consent_checkbox">
                         I have read and I understand the provided information. 
                         I understand that my participation in this survey is voluntary and I agree to take part in this study.
-                        <input type="submit"  value="Click here to proceed to the survey" id="submit">
-                    </form> 
+                        <button type='button' id="loadSurvey">Click here to proceed to the survey!</button>
+                    </form>
                     <script type="text/javascript">
-                        $(function ()
-                        {
-                            $("#ConsentForm").on('submit', function ()
-                            {
-                                if (document.getElementById("chbox").checked)
-                                {
-                                    $("#ConsentForm").onclick = function() {
-                                        "window.location = 'experiment'";
-                                    };
-                                }
-                                else
-                                {
-                                    e.preventDefault();
-                                    alert('Please check the box before submitting the form');
-                                }
-                            });
-                        });
+                    document.getElementById('loadSurvey').onclick = function() {
+                        if (document.getElementById('consent_checkbox').checked) {
+                             window.location.href = 'experiment.html';
+                        } else {
+                            alert('You need to check the checkbox to continue');
+                            return false;
+                        }
+                    }
+                     
                     </script>
                 </div>
             </div>
         </div>
     </body>
 </html>
+
